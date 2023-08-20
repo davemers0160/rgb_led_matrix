@@ -4,6 +4,9 @@
 ## Driver Install
 The primary instructions for the installation of the LED Matrix drivers are located here: [Adafruit RGB Matrix + Real Time Clock HAT for Raspberry Pi](https://learn.adafruit.com/adafruit-rgb-matrix-plus-real-time-clock-hat-for-raspberry-pi ) and [rpi-rgb-led-matrix](https://github.com/hzeller/rpi-rgb-led-matrix/tree/master ) 
 
+```
+ln ~/rpi-rgb-led-matrix/lib/librgbmatrix.so.1 ~/rpi-rgb-led-matrix/lib/librgbmatrix.so
+```
 
 ## Dependencies
 

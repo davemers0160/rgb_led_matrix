@@ -44,12 +44,13 @@ using rgb_matrix::FrameCanvas;
 
 // Make sure we can exit gracefully when Ctrl-C is pressed.
 volatile bool interrupt_received = false;
-static void InterruptHandler(int signo) {
+static void InterruptHandler(int signo) 
+{
   interrupt_received = true;
 }
 
-//using ImageVector = std::vector<cv::Mat>;
 
+//-----------------------------------------------------------------------------
 // Given the filename, load the image and scale to the size of the matrix.
 // If this is an animated image, the resutlting vector will contain multiple.
 static void load_images(std::string filename, int32_t target_width, int32_t target_height, std::vector<cv::Mat> &images) 
@@ -88,6 +89,7 @@ static void load_images(std::string filename, int32_t target_width, int32_t targ
 }   // end of load_images
 
 
+//-----------------------------------------------------------------------------
 // Copy an image to a Canvas. Note, the RGBMatrix is implementing the Canvas
 // interface as well as the FrameCanvas we use in the double-buffering of the
 // animted image.
@@ -109,6 +111,7 @@ void copy_image_to_canvas(const cv::Mat &image, Canvas *canvas)
     }
 }   // end of copy_image_to_canvas
 
+//-----------------------------------------------------------------------------
 // An animated image has to constantly swap to the next frame.
 // We're using double-buffering and fill an offscreen buffer first, then show.
 void show_animated_image(const std::vector<cv::Mat> &images, RGBMatrix *matrix) 
@@ -129,6 +132,30 @@ void show_animated_image(const std::vector<cv::Mat> &images, RGBMatrix *matrix)
     }
 }
 
+//-----------------------------------------------------------------------------
+void generate_random_images(RGBMatrix *matrix)
+{
+    cv::RNG rng;
+	cv::Mat image(matrix->height(), matrix->width(), CV_8UC3);
+   
+    FrameCanvas *offscreen_canvas = matrix->CreateFrameCanvas();
+    
+    while (!interrupt_received) 
+    {
+        rng.fill(image, cv::RNG::UNIFORM, 0, 255);
+
+        if (interrupt_received) 
+            break;
+        
+        copy_image_to_canvas(image, offscreen_canvas);
+        offscreen_canvas = matrix->SwapOnVSync(offscreen_canvas);
+        usleep(10000);  // 1/100s converted to usec
+        
+    }
+    
+}   // end of generate_random_images
+
+//-----------------------------------------------------------------------------
 int usage(const char *program_name) 
 {
     std::cout << "Usage: " << std::string(program_name) << "[led-matrix-options] <image-filename>" << std::endl;
@@ -169,6 +196,7 @@ int main(int argc, char *argv[])
     switch (images.size()) 
     {
     case 0:   // failed to load image.
+        generate_random_images(matrix);
         break;
     
     case 1:   // Simple example: one image to show

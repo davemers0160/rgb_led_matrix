@@ -61,6 +61,8 @@ else()
         "~/rpi-rgb-led-matrix/lib/librgbmatrix.so"
         )
 
+    set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+    
 endif()
 
 # look for any *.c and *.cpp files

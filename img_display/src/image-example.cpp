@@ -142,7 +142,7 @@ void generate_random_images(RGBMatrix *matrix)
     
     while (!interrupt_received) 
     {
-        rng.fill(image, cv::RNG::UNIFORM, 0, 255);
+        rng.fill(image, cv::RNG::UNIFORM, 0, 180);
 
         if (interrupt_received) 
             break;

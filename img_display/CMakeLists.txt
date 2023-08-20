@@ -38,10 +38,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 if(WIN32)
 
-	if(${PLATFORM} STREQUAL "Laptop")
-		set(COMMON_ROOT "D:/Common")
-	elseif(${PLATFORM} STREQUAL "LaptopN")
-		set(COMMON_ROOT "C:/Projects/Common")
+    if(${PLATFORM} STREQUAL "Laptop")
+        set(COMMON_ROOT "D:/Common")
+    elseif(${PLATFORM} STREQUAL "LaptopN")
+        set(COMMON_ROOT "C:/Projects/Common")
     elseif(${PLATFORM} STREQUAL "BEAST")
         set(COMMON_ROOT "D:/Common")
     else()
@@ -60,7 +60,7 @@ else()
     set(project_libs ${project_libs}
         "~/rpi-rgb-led-matrix/lib/librgbmatrix.so"
         )
-    
+
 endif()
 
 # look for any *.c and *.cpp files
@@ -72,7 +72,7 @@ set(project_includes
     "include" 
     "${PR_ROOT}/common/include"
     "${COMMON_ROOT}/include"
-    
+    "~/rpi-rgb-led-matrix/include"
     )
 
 message(" ")

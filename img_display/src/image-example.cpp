@@ -20,11 +20,13 @@
 
 
 #include <signal.h>
-#include <stdio.h>
+//#include <stdio.h>
 #include <unistd.h>
 
 #include <cmath>
 #include <cstdint>
+#include <cstdlib>
+#include <iostream>
 #include <string>
 #include <vector>
 #include <exception>
@@ -109,7 +111,7 @@ void copy_image_to_canvas(const cv::Mat &image, Canvas *canvas)
 
 // An animated image has to constantly swap to the next frame.
 // We're using double-buffering and fill an offscreen buffer first, then show.
-void show animated_image(const std::vector<cv::Mat> &images, RGBMatrix *matrix) 
+void show_animated_image(const std::vector<cv::Mat> &images, RGBMatrix *matrix) 
 {
     FrameCanvas *offscreen_canvas = matrix->CreateFrameCanvas();
     
@@ -122,14 +124,14 @@ void show animated_image(const std::vector<cv::Mat> &images, RGBMatrix *matrix)
             
             copy_image_to_canvas(image, offscreen_canvas);
             offscreen_canvas = matrix->SwapOnVSync(offscreen_canvas);
-            usleep(image.animationDelay() * 10000);  // 1/100s converted to usec
+            usleep(10000);  // 1/100s converted to usec
         }
     }
 }
 
 int usage(const char *program_name) 
 {
-    std::cout << "Usage: " std::string(program_name) << "[led-matrix-options] <image-filename>" << std::endl;
+    std::cout << "Usage: " << std::string(program_name) << "[led-matrix-options] <image-filename>" << std::endl;
     rgb_matrix::PrintMatrixFlags(stderr);
     return 1;
 }
